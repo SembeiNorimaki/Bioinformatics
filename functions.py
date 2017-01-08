@@ -2,15 +2,10 @@ __author__ = 'ialonso'
 __email__ = 'alonso.isaac@gmail.com'
 
 
-
 # check if it works
 def saveFile(r, filename, spacer):
     with open(filename, 'w') as outfile:
         outfile.write(spacer.join(r))   
-
-
-
-
 
 
 def PatternCount(text, pattern):
@@ -125,6 +120,7 @@ def ClumpFinding(seq, k, l, t):
                     valid_kmers.append(j)
     return valid_kmers
 
+
 # TODO: Finish it
 def BetterClumpFinding(seq, k, l, t):
     window = seq[0:l]
@@ -134,8 +130,6 @@ def BetterClumpFinding(seq, k, l, t):
             valid_kmers.append(j)
     for i in range(1, len(seq)-l+1):
         pass
-
-
 
 
 '''
@@ -153,7 +147,6 @@ def minSkew(seq):
         else:
             diagram[i+1] = diagram[i]
     print diagram
-
 
 
 # 1.8.3 Hamming
@@ -176,8 +169,7 @@ def ApproxPatternMatching(pattern, seq, d):
 
 
 # 1.8.6 ApproxPatternCount
-# wrong
-def ApproximatePatternCount(seq, pattern, d):
+def ApproximatePatternCount(pattern, seq, d):
     return len(ApproxPatternMatching(pattern, seq, d))
 
 
@@ -185,8 +177,7 @@ def ApproximatePatternCount(seq, pattern, d):
 
 # 1.8.8 FreqWordsMismatch and ReverseComplements
 
-
-#1.10.2 Find DNAa in Salmonella enterica
+# 1.10.2 Find DNAa in Salmonella enterica
 
 
 # Converts a DNA symbol ('A','C','G','T') to a number (0,1,2,3) respectively
@@ -250,6 +241,33 @@ def FasterFrequentWords(seq, k):
 # 1.14.1 ClumpFind
 # 1.14.4 BetterClumpFinding
 
+# 1.16.1 Neighbors
+# it returns pattern itself, which according to exercixe is OK but is it really OK?
+def ImmediateNeighbors(pattern):
+    r = []
+    for i in range(len(pattern)):
+        for j in ['A', 'C', 'G', 'T']:
+            newpattern = pattern[0:i] + j + pattern[i+1:len(pattern)]
+            if newpattern not in r:
+                r.append(newpattern)
+    return r
+
+
+# exercice OK
+# 1.16.5
+def IterativeNeighbors(pattern, d):
+    neighborhood = [pattern]
+    for i in range(0, d):   # 1 to d
+        print 'i: ' + str(i)
+        neighborhood2 = []
+        for j in neighborhood:
+            immediate = ImmediateNeighbors(j)
+            for k in immediate:
+                if k not in neighborhood2:
+                    neighborhood2.append(k)
+        neighborhood = neighborhood2
+    return neighborhood
+
 # 1.15.2 FreqWordsMismatch
 
 # etc... until 1.23
@@ -261,6 +279,9 @@ def FasterFrequentWords(seq, k):
 # Test
 
 def main():
+
+    print PatternCount('GTGTCGGATGTCGGATCGGCGTCGGATGTCGGATAGTCGGATCTCGGGTCGGATGTCGGATAGCTATAAAGGTCGGATCCGTTTCGTCGGATGTCGGATTGCGTCGGATGTCGGATCGCGTCGGATTACGGTCGGATAGGGTCGGATGTCGGATCGTCGGATGTCGGATGTCGGATCGTCGGATGGTCGGATTGTCGGATGGTCGGATCGTCGGATTGTCGGATTTGAGTCGGATGTCGGATGTCGGATAGTCGGATCATTGGTCGGATGGTCGGATGTGTCGGATACAGTCGGATCGGTGGGTCGGATTGTCGGATGTCGGATTGTCGGATGTCGGATATGGCAAGTGTCGGATGAAGCTAGGTCGGATGTCGAGTCGGATCGTCGGATAGAGGCGTCGGATGTCGGATGTCGGATACGACCAGGAGGTCGGATGTCGGATGTAGTCGGATAAGGTCGGATGGTTACTGCGTCGGATAAGGCTTTCCCATGTCGGATAGGTCTACGCGGGGAGGTCGGATGTCGGATGTCGGATGATCCTAACGTCGGATTGTCGGATGTCGGATCGTAGGTCGGATTGGCGGAAGTCGGATGAGTCGGATCGTCGGATCGTCGGATGTCGGATTGGTCGGATGTCGGATCTTCACGTCGGATACTAGAGTCGGATACTTGTCGGATGTAGTCGGATCGTCGGATACGGTCGGATGTCGGATCTGTCGGATGCGTCGGATCGTCGGATGTCGGATCACAAGTCGGATTCGACTGCGTGTCGGATGTCGGATGTCGGATTCAGATGTCGGATAATGTCGGATGTGAGGTCGGATGTCGGATGTCGGATGAGTCGGATTGTCGGATGATGTCGGATTGGGTCGGATGTATGTCGGATCGGCGTCGGATGGGTCGGATACGTCGGATGTCGGATGTCGGATAGTCGGATATGAGTCGGATTTCCGTAGGTCGGATTGTCGGATGGTCGGAT','GTCGGATGT')
+
     #print PatternToNumber('CTTCTCACGTACAACAAAATC') == 2161555804173
     #print PatternToNumber('AAGGTATTAGTGGGTC')
 
@@ -285,8 +306,12 @@ def main():
 
     #print ApproximatePatternCount('AACAAGCTGATAAACATTTAAAGAG','AAAAA',2)
 
-    print ApproximatePatternCount('CTGCT','TGTTATCCACGTCCGCATCGAGGCCGAGCAGTGCACGGCCAACCCGTGATAGGATACGGGCCAAACGCTCAAGACTTCGCTCGTTACCCAGGACTTAGATCCAGCCCTGCTCCGCTGTTGGCCTAATGGGAGACCACCGTCGCAACGTCTGAGTTCAAGTTAACTCAAACGTCGGCTTCAAAACGGCCAATTCGGGCTAGTTGTACGTCGTAGGGACTGGCGACCGACGGGGCAGTGGGGGGAGTGGTAGACGGTCGCAAGCCCGCTCTCACAGATTTCGGTGGACCTGTGGCAGGTCTTGCTAATCAAAAGAG',2)
+    #print ApproximatePatternCount('TAGATC','AACAAGCCCGACGTCCGTGACAATTCTCAGCAAGGTACGCGGCATTATTCACACCCCGGAGCGCACCGGACAAAGGTAAGGATACATTAACTTAGATGTTAGATCCGCTCGAACAAACTCAGTGTTTCAACAACACGAACTATCTCGTATATACTTTTATTGGGCGAATATGCTAACTAGATGGTGCCAACGGTTAGGTGGCGGTATATGCCATTCTGGCAAAGATTGACAGCATATGTTATACCAGTCTAGATAAGCACCATATCGAGACGCACTGTTTTTCCGTAGCCGTCCGCACGCTGTCTCCCCCTGTAATTAAGGAAAAGTCACGTTACATGGCAAATGCATATTGTCGACGACGACGTAGCTCCACCCTCAGGCACGTCCCGCGAGCCTCA',2)
 
+    #print ImmediateNeighbors('AGA')
+
+    #a = IterativeNeighbors('CTGGTGGT', 3)
+    #print '\n'.join(a)
 
 if __name__ == "__main__":
     main()
