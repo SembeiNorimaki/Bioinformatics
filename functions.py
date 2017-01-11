@@ -132,21 +132,40 @@ def BetterClumpFinding(seq, k, l, t):
         pass
 
 
-'''
-1.7.4 Skew
-1.7.6 Min Skew
-'''
-# skewi = num G - num C in the first i nucleotides
-def minSkew(seq):
+# 1.7.4 SkewDiagram  (num G - num C)
+def SkewDiagram(seq):
     diagram = [0]*(len(seq)+1)
     for i in range(0,len(seq)):
         if seq[i] == 'G':
             diagram[i+1] = diagram[i] + 1
         elif seq[i] == 'C':
             diagram[i+1] = diagram[i] - 1
-        else:
+        else:s
             diagram[i+1] = diagram[i]
     print diagram
+
+
+# 1.7.6 Min Skew
+def minSkew(seq):
+    skew = 0
+    minSkew = 0
+    minIndexes = []
+    for i in range(0,len(seq)):
+
+        if seq[i] == 'G':
+
+            skew += 1
+
+
+        elif seq[i] == 'C':
+            skew -= 1
+        if skew == minSkew:
+            minIndexes.append(i)
+        elif skew < minSkew:
+            minIndexes = []
+            minIndexes.append(i)
+            minSkew = skew
+    return minIndexes
 
 
 # 1.8.3 Hamming
