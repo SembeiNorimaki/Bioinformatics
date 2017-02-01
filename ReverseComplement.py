@@ -1,7 +1,11 @@
 """
+Update: It condiders the sequence as DNA by default unless it
+contains Uracil.
+Short sequences of RNA not containing Uracil will be reversed as DNA!
+
 Exercice 1.3.2 ReverseComplement
 Description: Reverse complement a nucleotide pattern.
-     Input: A DNA string seq.
+     Input: A DNA (or RNA) string seq.
      Output: the reverse complement of seq
      
 Sample Input:
@@ -11,9 +15,13 @@ Sample Output:
      ACCGGGTTTT
 """
 
-def ReverseComplement(seq):
+def ReverseComplement(seq, type_='DNA'):
     r = []
-    d = {'A': 'T', 'G': 'C', 'C': 'G', 'T': 'A'}
+    if type_ == 'RNA': 
+        d = {'A': 'U', 'G': 'C', 'C': 'G', 'U': 'A'}
+    else:    
+        d = {'A': 'T', 'G': 'C', 'C': 'G', 'T': 'A'}
+    
     for i in seq:
         r.insert(0, d[i])
     return ''.join(r)
@@ -32,12 +40,12 @@ if __name__ == '__main__':
         try:
             args = ast.literal_eval(sys.argv[1])
         except:
-            print "ERROR evaluating input parameters"
+            print("ERROR evaluating input parameters")
             sys.exit()
         main(args)
     else:
-        print "Incorrect argument syntax." 
-        print "There must be only one argument formatted as string with double quotes"
-        print "This string must contain a list with all parameters in the correct format"
-        print "Exampe:"
-        print "   python template.py \"['hello', 5, {'age': 30}, [1, 2, 3, 4]] \" "
+        print("Incorrect argument syntax.")
+        print("There must be only one argument formatted as string with double quotes")
+        print("This string must contain a list with all parameters in the correct format")
+        print("Exampe:")
+        print("   python template.py \"['hello', 5, {'age': 30}, [1, 2, 3, 4]] \" ")
