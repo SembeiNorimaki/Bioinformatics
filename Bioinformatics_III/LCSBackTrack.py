@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def LCSBackTrack(v, w):
     s = np.zeros((len(v)+1,len(w)+1))
     backtrack = np.zeros((len(v)+1,len(w)+1))
@@ -12,15 +13,16 @@ def LCSBackTrack(v, w):
                 s[i][j] = max(s[i-1][j], s[i][j-1], s[i-1][j-1])
     
             if s[i][j] == s[i-1][j]:
-                backtrack[i][j] = 10
+                backtrack[i][j] = 1
             elif s[i][j] == s[i][j-1]:
-                backtrack[i][j] = 11
+                backtrack[i][j] = 2
             elif s[i][j] == s[i-1][j-1] + 1 and v[i-1] == w[j-1]:
-                backtrack[i][j] = 12    
-    print(s)
-    print(backtrack)
+                backtrack[i][j] = 3    
+    
+    return(backtrack)
 
 
-LCSBackTrack('ATGTTATA', 'ATCGTCC')
+if __name__ == "__main__":
+	LCSBackTrack('ATGTTATA', 'ATCGTCC')
                 
     
