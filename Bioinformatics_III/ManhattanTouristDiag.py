@@ -6,6 +6,7 @@ def parse_input():
     n, m = map(int, sys.stdin.readline().rstrip('\n').split())
     down = np.array((n, m+1))
     right = np.array((n+1, m))
+    diag = np.array((n, m))
     
     line = []
     for i in range(n):
@@ -19,13 +20,21 @@ def parse_input():
         line.append(list(map(int,sys.stdin.readline().rstrip('\n').split(' '))))
     right = np.asarray(line)
 
+    _ = sys.stdin.readline()
+
+    line = []
+    for i in range(n):
+        line.append(list(map(int,sys.stdin.readline().rstrip('\n').split(' '))))
+    diag = np.asarray(line)
+
     #print(down)
     #print(right)
-    print(ManhattanTourist(n, m, down, right))
+    #print(diag)
+    print(ManhattanTouristDiag(n, m, down, right, diag))
 
 
 # Works
-def ManhattanTourist(n, m, down, right):
+def ManhattanTouristDiag(n, m, down, right, diag):
     r = np.zeros((n+1,m+1))
     for i in range(1,n+1):
         r[i][0] = r[i-1][0] + down[i-1][0]
@@ -33,7 +42,7 @@ def ManhattanTourist(n, m, down, right):
         r[0][j] = r[0][j-1] + right[0][j-1]
     for i in range(1,n+1):
         for j in range(1,m+1):
-            r[i][j] = max(r[i-1][j]+down[i-1][j], r[i][j-1]+right[i][j-1])      
+            r[i][j] = max(r[i-1][j]+down[i-1][j], r[i][j-1]+right[i][j-1], r[i-1][j-1]+diag[i-1][j-1])      
     return r[n][m]
 
 
