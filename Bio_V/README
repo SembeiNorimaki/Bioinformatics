@@ -1,0 +1,11 @@
+Algorithms that passed sample, extra dataset and Challenge:
+    - HierarchicalClustering
+    - FarthestFirstTraversal  (TODO: make an output function)
+    - SquaredErrorDistortion
+    - EM   (TODO: make input accept stdin or filename as parameter
+                  and handle first line)  
+
+                     
+Algorithms to develop:
+    - Lloyd
+    - Kmeans++ initializer
