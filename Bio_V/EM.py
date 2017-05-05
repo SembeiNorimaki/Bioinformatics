@@ -23,7 +23,7 @@ def em(k,m,beta,data):
 
     npoints = data.shape[0]
     # select the first k points from Data as the first centers
-    centers = data[0:k,:]
+    centers = np.copy(data[0:k,:])
 
     for aa in range(100):
         # E-step

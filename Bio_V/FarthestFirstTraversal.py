@@ -7,7 +7,7 @@ def FarthestFirstTraversal(data, k):
     # take the first point as the first center and remove it from data
     #idx = randint(0,nsamples-1) 
     idx = 0
-    centers = np.matrix(data[idx,:]) 
+    centers = np.matrix(np.copy(data[idx,:]))
     data = np.delete(data,idx,0)     
 
     while centers.shape[0] < k:   
